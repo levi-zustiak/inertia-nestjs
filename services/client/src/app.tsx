@@ -1,4 +1,3 @@
-// import { createInertiaApp } from '../../inertia/createInertiaApp';
 import { createInertiaApp } from 'inertia-solid';
 import { render } from 'solid-js/web';
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { InertiaService } from './inertia.service';
-import { HttpAdapterHost, REQUEST } from '@nestjs/core';
+import { HttpAdapterHost } from '@nestjs/core';
 
 @Module({
   providers: [InertiaService],

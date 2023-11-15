@@ -1,12 +1,5 @@
-import { Controller, Get, Render, Res, Response } from '@nestjs/common';
+import { Controller, Get, Render, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-
-function render(component, props) {
-  return {
-    component,
-    props,
-  };
-}
 
 @Controller()
 export class AppController {
@@ -23,5 +16,26 @@ export class AppController {
     return {
       user,
     };
+  }
+
+  @Get('/profile')
+  @Render('Profile')
+  getProfile(@Res() res): any {
+    const user = {
+      id: 1,
+      name: 'Levi',
+    };
+
+    res.status(401).redirect('/login');
+
+    return {
+      user,
+    };
+  }
+
+  @Get('/login')
+  @Render('Auth/Login')
+  login(): any {
+    return {};
   }
 }

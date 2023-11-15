@@ -21,15 +21,21 @@ export class InertiaService {
     const serverRender = server.render;
 
     server.render = (response, component, props) => {
-      // console.log(response, view, data);
+      const req = response.req;
+      const url = req.baseUrl + req.path;
 
-      console.log(response.req.header('Vary'));
+      const page = {
+        component,
+        props,
+        url,
+      };
 
       if (response.req.header('X-Inertia')) {
-        return response.send({ component, props });
+        response.header('X-Inertia', true);
+        return response.send(page);
       }
 
-      serverRender(response, 'app.html', { component, props });
+      serverRender(response, 'app.html', { page });
     };
   }
 
@@ -38,20 +44,12 @@ export class InertiaService {
   }
 }
 
-function inertiaEngine(
-  filePath,
-  { component, props }: { component: any; props: any },
-  callback,
-) {
+function inertiaEngine(filePath, { page }, callback) {
   const file = fs.readFileSync(filePath).toString();
-
-  const page = JSON.stringify({ component, props });
 
   const root = `<div id='root' data-page=${page}></div>`;
 
   const content = file.replace('@inertia', root);
-
-  console.log(root);
 
   return callback(null, content);
 }

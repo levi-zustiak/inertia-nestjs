@@ -5,20 +5,12 @@ import { join } from 'path';
 import * as fs from 'fs';
 import { inertia } from './inertia/inertia.middleware';
 
-function inertiaEngine(
-  filePath,
-  { component, props }: { component: any; props: any },
-  callback,
-) {
+function inertiaEngine(filePath, { page }, callback) {
   const file = fs.readFileSync(filePath).toString();
 
-  const page = JSON.stringify({ component, props });
-
-  const root = `<div id='root' data-page=${page}></div>`;
+  const root = `<div id='root' data-page=${JSON.stringify(page)}></div>`;
 
   const content = file.replace('@inertia', root);
-
-  console.log(root);
 
   return callback(null, content);
 }

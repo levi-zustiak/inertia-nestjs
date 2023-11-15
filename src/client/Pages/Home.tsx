@@ -1,4 +1,21 @@
+import { router } from 'inertia-solid';
+import { io } from 'socket.io-client';
+
+const socket = io('localhost:8080');
+
 export default function Home(props) {
-  console.log(props);
-  return <h1>Home</h1>;
+  const handleNavigate = () => {
+    router.get('/profile');
+  };
+
+  const handleSocket = () => {
+    socket.emit('foo', 'bar');
+  };
+
+  return (
+    <div>
+      <button onClick={handleNavigate}>Navigate</button>
+      <button onClick={handleSocket}>Socket</button>
+    </div>
+  );
 }

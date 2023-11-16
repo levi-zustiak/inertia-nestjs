@@ -1,7 +1,7 @@
 import { router } from 'inertia-solid';
 import { io } from 'socket.io-client';
 
-const socket = io('localhost:8080');
+// const socket = io('localhost:3000');
 
 export default function Home(props) {
   const handleNavigate = () => {
@@ -9,7 +9,7 @@ export default function Home(props) {
   };
 
   const handleSocket = () => {
-    socket.emit('foo', 'bar');
+    // socket.emit('foo', 'bar');
   };
 
   return (

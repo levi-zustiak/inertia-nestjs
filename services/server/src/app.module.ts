@@ -5,7 +5,7 @@ import { InertiaModule } from './inertia/inertia.module';
 import { SocketModule } from './socket/socket.module';
 
 @Module({
-  imports: [SocketModule, InertiaModule.forRootAsync()],
+  imports: [SocketModule, InertiaModule],
   controllers: [AppController],
   providers: [AppService],
 })

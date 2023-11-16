@@ -1,1 +1,0 @@
-{"version":3,"file":"inertia.decorator.js","sourceRoot":"","sources":["../../src/inertia/inertia.decorator.ts"],"names":[],"mappings":";;;AAAA,wDAA2D;AAE3D,SAAgB,MAAM;IACpB,OAAO,CAAC,MAAc,EAAE,GAAoB,EAAE,UAAe,EAAE,EAAE;QAC/D,OAAO,CAAC,cAAc,CAAC,2BAAe,EAAE,UAAU,EAAE,UAAU,CAAC,KAAK,CAAC,CAAC;QACtE,OAAO,UAAU,CAAC;IACpB,CAAC,CAAC;AACJ,CAAC;AALD,wBAKC"}

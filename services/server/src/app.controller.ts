@@ -1,26 +1,22 @@
-import { Controller, Get, Inject, Render, Res } from '@nestjs/common';
+import { Controller, Get, Render, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
+import { InertiaService } from './inertia/inertia.service';
 
 @Controller()
 export class AppController {
   constructor(
-    @Inject(REQUEST) private req: Request,
+    private readonly inertiaSvc: InertiaService,
     private readonly appService: AppService,
   ) {}
 
   @Get()
-  @Render('Home')
-  getHello(): any {
+  getHello(@Res() res): any {
     const user = {
       id: 1,
       name: 'Levi',
     };
 
-    return {
-      user,
-    };
+    return this.inertiaSvc.render('Home', { user });
   }
 
   @Get('/profile')
@@ -32,31 +28,11 @@ export class AppController {
 
     return res.redirect('/login');
 
-    return this.render('Profile', { user });
+    return this.inertiaSvc.render('Profile', { user });
   }
 
   @Get('/login')
-  @Render('Auth/Login')
-  login(): any {
-    return {};
+  login(@Res() res): any {
+    return this.inertiaSvc.render('Auth/Login');
   }
-
-render(component, props) {
-  const res = this.req.res;
-  const url = this.req.baseUrl + this.req.path;
-
-  const page = {
-    component,
-    props,
-    url,
-  };
-
-  if (this.req.header('X-Inertia')) {
-    res.header('X-Inertia', 'true');
-
-    return page;
-  }
-
-  return res.render('app.html', { page });
-}
 }

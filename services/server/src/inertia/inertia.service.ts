@@ -1,5 +1,5 @@
 import { HttpServer } from '@nestjs/common';
-import * as fs from 'fs';
+import { Response } from 'express';
 
 export class InertiaService {
   public static init(server: HttpServer) {
@@ -20,7 +20,7 @@ export class InertiaService {
 
     const serverRender = server.render;
 
-    server.render = (response, component, props) => {
+    server.render = (response: Response, component, props) => {
       const req = response.req;
       const url = req.baseUrl + req.path;
 
@@ -31,8 +31,7 @@ export class InertiaService {
       };
 
       if (response.req.header('X-Inertia')) {
-        response.header('X-Inertia', true);
-        return response.send(page);
+        return response.header('X-Inertia', 'true').send(page);
       }
 
       serverRender(response, 'app.html', { page });
@@ -42,14 +41,4 @@ export class InertiaService {
   public render(response, component, data) {
     console.log(response, component, data);
   }
-}
-
-function inertiaEngine(filePath, { page }, callback) {
-  const file = fs.readFileSync(filePath).toString();
-
-  const root = `<div id='root' data-page=${page}></div>`;
-
-  const content = file.replace('@inertia', root);
-
-  return callback(null, content);
 }

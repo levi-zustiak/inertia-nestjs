@@ -12,9 +12,9 @@ export default defineConfig(({ mode }) => {
     server: {
       host: '0.0.0.0',
       hmr: {
-        clientPort: env.OUTER_PORT,
+        clientPort: 80,
       },
-      port: env.INNER_PORT,
+      port: 5173,
       watch: {
         usePolling: true,
       },

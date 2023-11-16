@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InertiaService = void 0;
-const fs = require("fs");
 class InertiaService {
     constructor() {
         this.initialized = false;
@@ -27,8 +26,7 @@ class InertiaService {
                 url,
             };
             if (response.req.header('X-Inertia')) {
-                response.header('X-Inertia', true);
-                return response.send(page);
+                return response.header('X-Inertia', 'true').send(page);
             }
             serverRender(response, 'app.html', { page });
         };
@@ -38,10 +36,4 @@ class InertiaService {
     }
 }
 exports.InertiaService = InertiaService;
-function inertiaEngine(filePath, { page }, callback) {
-    const file = fs.readFileSync(filePath).toString();
-    const root = `<div id='root' data-page=${page}></div>`;
-    const content = file.replace('@inertia', root);
-    return callback(null, content);
-}
 //# sourceMappingURL=inertia.service.js.map

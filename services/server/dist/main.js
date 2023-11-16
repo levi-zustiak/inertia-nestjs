@@ -17,7 +17,7 @@ async function bootstrap() {
     app.setBaseViewsDir((0, path_1.join)(__dirname, '..', './src/views'));
     app.setViewEngine('html');
     app.use(inertia_middleware_1.inertia);
-    await app.listen(8080);
+    await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

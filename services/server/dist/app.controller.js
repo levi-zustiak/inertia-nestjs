@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+const core_1 = require("@nestjs/core");
 let AppController = class AppController {
-    constructor(appService) {
+    constructor(req, appService) {
+        this.req = req;
         this.appService = appService;
     }
     getHello() {
@@ -33,13 +35,25 @@ let AppController = class AppController {
             id: 1,
             name: 'Levi',
         };
-        res.status(401).redirect('/login');
-        return {
-            user,
-        };
+        return res.redirect('/login');
+        return this.render('Profile', { user });
     }
     login() {
         return {};
+    }
+    render(component, props) {
+        const res = this.req.res;
+        const url = this.req.baseUrl + this.req.path;
+        const page = {
+            component,
+            props,
+            url,
+        };
+        if (this.req.header('X-Inertia')) {
+            res.header('X-Inertia', 'true');
+            return page;
+        }
+        return res.render('app.html', { page });
     }
 };
 exports.AppController = AppController;
@@ -52,11 +66,10 @@ __decorate([
 ], AppController.prototype, "getHello", null);
 __decorate([
     (0, common_1.Get)('/profile'),
-    (0, common_1.Render)('Profile'),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", void 0)
 ], AppController.prototype, "getProfile", null);
 __decorate([
     (0, common_1.Get)('/login'),
@@ -67,6 +80,7 @@ __decorate([
 ], AppController.prototype, "login", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [app_service_1.AppService])
+    __param(0, (0, common_1.Inject)(core_1.REQUEST)),
+    __metadata("design:paramtypes", [Object, app_service_1.AppService])
 ], AppController);
 //# sourceMappingURL=app.controller.js.map

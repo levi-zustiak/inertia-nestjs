@@ -24,6 +24,6 @@ async function bootstrap() {
 
   app.use(inertia);
 
-  await app.listen(8080);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

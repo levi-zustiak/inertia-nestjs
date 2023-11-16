@@ -1,9 +1,14 @@
-import { Controller, Get, Render, Res } from '@nestjs/common';
+import { Controller, Get, Inject, Render, Res } from '@nestjs/common';
 import { AppService } from './app.service';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    @Inject(REQUEST) private req: Request,
+    private readonly appService: AppService,
+  ) {}
 
   @Get()
   @Render('Home')
@@ -19,18 +24,15 @@ export class AppController {
   }
 
   @Get('/profile')
-  @Render('Profile')
-  getProfile(@Res() res): any {
+  getProfile(@Res() res) {
     const user = {
       id: 1,
       name: 'Levi',
     };
 
-    res.status(401).redirect('/login');
+    return res.redirect('/login');
 
-    return {
-      user,
-    };
+    return this.render('Profile', { user });
   }
 
   @Get('/login')
@@ -38,4 +40,23 @@ export class AppController {
   login(): any {
     return {};
   }
+
+render(component, props) {
+  const res = this.req.res;
+  const url = this.req.baseUrl + this.req.path;
+
+  const page = {
+    component,
+    props,
+    url,
+  };
+
+  if (this.req.header('X-Inertia')) {
+    res.header('X-Inertia', 'true');
+
+    return page;
+  }
+
+  return res.render('app.html', { page });
+}
 }

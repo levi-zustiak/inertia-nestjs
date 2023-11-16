@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile
     image: client
     ports:
-      - '80:${CLIENT_PORT:-5173}'
+      - '${CLIENT_PORT:-5173}:${CLIENT_PORT:-5173}'
     volumes:
       - './services/client:/usr/src/app:delegated'
       - /usr/src/app/node_modules
@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     image: server
     ports:
-      - '8080:8080'
+      - '${SERVER_PORT:-3000}:${SERVER_PORT:-3000}'
     volumes:
       - './services/server:/usr/src/app:delegated'
       - /usr/src/app/node_modules
